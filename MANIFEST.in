@@ -1,0 +1,2 @@
+recursive-include silica/django_app/static *
+recursive-include silica/django_app/templates *

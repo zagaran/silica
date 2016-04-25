@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static "silica/lib/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "silica/lib/jquery-ui-1.11.4.min.css" %}" rel="stylesheet">
+    <link href="{% static "silica/lib/jquery-ui.structure-1.11.4.min.css" %}" rel="stylesheet">
+    <link href="{% static "silica/lib/jquery-ui.theme-1.11.4.min.css" %}" rel="stylesheet">
+    {% block css %}
+    {% endblock %}
+  </head>
+  <body ng-app="projectApp" ng-controller="{% block angular_controller %}{% endblock %}"
+        ng-model-options="{ updateOn: 'default change click blur', debounce: { default: 300, change: 0, click: 0, blur: 0 } }"
+        ng-cloak>
+    {% block body %}
+    {% endblock %}
+    <script src="{% static "silica/lib/angular-1.4.6.min.js" %}"></script>
+    <script src="{% static "silica/lib/jquery-1.11.3.min.js" %}"></script>
+    <script src="{% static "silica/lib/bootstrap-3.3.4.min.js" %}"></script>
+    <script src="{% static "silica/lib/ui-bootstrap-tpls-1.2.5.min.js" %}"></script>
+    <script src="{% static "silica/lib/jquery-ui-1.11.4.min.js" %}"></script>
+    <script>
+        window.csrf_token = "{{ csrf_token }}";
+        var angularApp = angular.module("projectApp", ["ui.bootstrap"]);
+        angularApp.config(["$httpProvider", function($httpProvider) {
+            $httpProvider.defaults.headers.common["X-CSRFToken"] = window.csrf_token;
+        }]);
+    </script>
+    <script>
+        $(function() {
+            $(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-20:+20",
+            });
+        });
+    </script>
+    {% block js %}
+    {% endblock %}
+  </body>
+</html>
