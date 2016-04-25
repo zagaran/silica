@@ -65,20 +65,26 @@ class BaseModel(models.Model):
     def create_from_json(cls, json_str):
         model = json.loads(json_str)
         params_dict = cls._clean_json_payload(model["fields"])
-        foreign_key_fields = cls.WRITEABLE_ATTRS(type_filter=models.ForeignKey)
-        many_to_many_fields = cls.WRITEABLE_ATTRS(type_filter=models.ManyToManyField)
         return cls.objects.create(**params_dict)
-    
+
+    @classmethod
+    def get_related_fields(cls):
+        return {f.name: f.related_model for f in cls._meta.fields if (isinstance(f, models.ForeignKey) or
+                                                                      isinstance(f, models.ManyToManyField))}
+
     @classmethod
     def _clean_json_payload(cls, params_dict):
         writeables = cls.WRITEABLE_ATTRS()
         date_fixes = cls.WRITEABLE_ATTRS(type_filter=models.DateField, type_exclude=models.DateTimeField)
+        related_fields = cls.get_related_fields()
         for key in params_dict.keys():
             if key not in writeables:
                 params_dict.pop(key)
             if key in date_fixes:
                 # Strip part the time portion of the ISO timestamp
                 params_dict[key] = params_dict[key].split("T")[0]
+            if key in related_fields:
+                params_dict[key] = related_fields[key].objects.get(pk=params_dict[key])
         return params_dict
     
     def update(self, update_dict=None, **kwargs):
