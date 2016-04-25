@@ -1,7 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 from django.utils.html import format_html, mark_safe
-from django.forms import DateField, DateTimeField
+from django.forms import DateField, DateTimeField, ModelChoiceField, ModelMultipleChoiceField
 from django.db import models
 
 register = template.Library()
@@ -69,6 +69,12 @@ def angular_input_field(form_field, angular_model_name, extra_params={}):
             return format_html(widget1 + separator + widget2)
         if isinstance(form_field.field, DateField):
             return format_html(_get_datepicker(form_field, attrs, extra_params))
+        if isinstance(form_field.field, ModelChoiceField):
+            pass
+            #return format_html(_get_datepicker(form_field, attrs, extra_params))
+        if isinstance(form_field.field, ModelMultipleChoiceField):
+            pass
+            #return format_html(_get_datepicker(form_field, attrs, extra_params))
         attrs.update(extra_params)
         return format_html(form_field.as_widget(attrs=attrs))
     finally:

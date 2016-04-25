@@ -65,6 +65,8 @@ class BaseModel(models.Model):
     def create_from_json(cls, json_str):
         model = json.loads(json_str)
         params_dict = cls._clean_json_payload(model["fields"])
+        foreign_key_fields = cls.WRITEABLE_ATTRS(type_filter=models.ForeignKey)
+        many_to_many_fields = cls.WRITEABLE_ATTRS(type_filter=models.ManyToManyField)
         return cls.objects.create(**params_dict)
     
     @classmethod
