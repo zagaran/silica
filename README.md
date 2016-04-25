@@ -3,7 +3,8 @@
 ## Django
 
 Add the following to your settings:
-`
+
+```
 INSTALLED_APPS = (
     ...
     'silica.django_app',
@@ -24,7 +25,7 @@ TEMPLATES = [
         ...
     },
 ]
-`
+```
 
 Use the base template silica/base.html
 
