@@ -5,6 +5,11 @@
     <link href="{% static "silica/lib/jquery-ui-1.11.4.min.css" %}" rel="stylesheet">
     <link href="{% static "silica/lib/jquery-ui.structure-1.11.4.min.css" %}" rel="stylesheet">
     <link href="{% static "silica/lib/jquery-ui.theme-1.11.4.min.css" %}" rel="stylesheet">
+    <style>
+      [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: none !important;
+      }
+    </style>
     {% block css %}
     {% endblock %}
   </head>

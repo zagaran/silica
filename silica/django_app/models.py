@@ -28,7 +28,7 @@ import json
 
 from django.db import models
 from django.core import serializers
-
+from itertools import chain
 
 class BaseModel(models.Model):
     class Meta:
@@ -59,34 +59,58 @@ class BaseModel(models.Model):
             if type_exclude is not None and isinstance(f, type_exclude):
                 return False
             return True
-        return [f.name for f in cls._meta.fields if combined_filter(f)]
+        return [f.name for f in chain(cls._meta.fields, cls._meta.many_to_many) if combined_filter(f)]
     
     @classmethod
     def create_from_json(cls, json_str):
         model = json.loads(json_str)
-        params_dict = cls._clean_json_payload(model["fields"])
-        return cls.objects.create(**params_dict)
+        params_dict = model["fields"]
+        many_to_many_dict = cls.prep_many_to_many_save(params_dict)
+        # _clean_json_payload pops the m2m fields
+        params_dict = cls._clean_json_payload(params_dict)
+        ret = cls.objects.create(**params_dict)
+        # we have to do many to many field separately because obj does not exist yet otherwise
+        ret.do_many_to_many_save(many_to_many_dict)
+        return ret
 
     @classmethod
-    def get_related_fields(cls):
-        return {f.name: f.related_model for f in cls._meta.fields if (isinstance(f, models.ForeignKey) or
-                                                                      isinstance(f, models.ManyToManyField))}
+    def get_foreign_key_fields(cls):
+        return {f.name: f.related_model for f in cls._meta.fields if isinstance(f, models.ForeignKey)}
+
+    @classmethod
+    def get_many_to_many_fields(cls):
+        return {f.name: f.related_model for f in cls._meta.many_to_many}
 
     @classmethod
     def _clean_json_payload(cls, params_dict):
         writeables = cls.WRITEABLE_ATTRS()
         date_fixes = cls.WRITEABLE_ATTRS(type_filter=models.DateField, type_exclude=models.DateTimeField)
-        related_fields = cls.get_related_fields()
+        foreign_key_fields = cls.get_foreign_key_fields()
+        many_to_many_fields = cls.get_many_to_many_fields()
         for key in params_dict.keys():
-            if key not in writeables:
+            if key not in writeables or key in many_to_many_fields:
+                # pop the not-writable and m2m fields
                 params_dict.pop(key)
             if key in date_fixes:
                 # Strip part the time portion of the ISO timestamp
                 params_dict[key] = params_dict[key].split("T")[0]
-            if key in related_fields:
-                params_dict[key] = related_fields[key].objects.get(pk=params_dict[key])
+            if key in foreign_key_fields:
+                params_dict[key] = foreign_key_fields[key].objects.get(pk=params_dict[key])
         return params_dict
-    
+
+    @classmethod
+    def prep_many_to_many_save(cls, params_dict):
+        many_to_many_dict = {}
+        many_to_many_fields = cls.get_many_to_many_fields()
+        for key in params_dict.keys():
+            if key in many_to_many_fields:
+                many_to_many_dict[key] = many_to_many_fields[key].objects.filter(pk__in=params_dict[key])
+        return many_to_many_dict
+
+    def do_many_to_many_save(self, many_to_many_dict):
+        for field, objs in many_to_many_dict.iteritems():
+            getattr(self, field).set(objs)
+
     def update(self, update_dict=None, **kwargs):
         """ Helper method to update objects """
         if not update_dict:
@@ -104,8 +128,11 @@ class BaseModel(models.Model):
     
     def update_from_json(self, update_json):
         model = json.loads(update_json)
-        update_dict = self._clean_json_payload(model["fields"])
-        self.update(update_dict)
+        params_dict = model["fields"]
+        many_to_many_dict = self.prep_many_to_many_save(params_dict)
+        params_dict = self._clean_json_payload(params_dict)
+        self.update(params_dict)
+        self.do_many_to_many_save(many_to_many_dict)
 
 
 class TimestampedModel(BaseModel):

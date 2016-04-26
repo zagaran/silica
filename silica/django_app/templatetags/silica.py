@@ -4,6 +4,8 @@ from django.utils.html import format_html, mark_safe
 from django.forms import DateField, DateTimeField, ModelChoiceField, ModelMultipleChoiceField
 from django.db import models
 
+import json
+
 register = template.Library()
 
 @register.filter(name="getattr")
@@ -19,9 +21,17 @@ def template_getitem(obj, item_name):
 def title_space(string):
     return string.replace("_", " ").title()
 
+@register.filter(name="get_django_field")
+def template_get_django_field(obj, field):
+    val = getattr(obj, field)
+    if field in obj.get_many_to_many_fields():
+        return val.all()
+    return val
 
 @register.simple_tag(name="angular_model")
 def angular_model(model, angular_model_name, extra_params={}):
+    # returns javascript that preprocesses obj before attaching it to window where angular controller can grab it
+    # TODO: would like to use ng-init instead of this
     # TODO: prevent dates from showing up one day off in certain timezones
     # TODO: prepend namespace strings to window variables
     # TODO: don't rely on JS date parsing
@@ -29,7 +39,18 @@ def angular_model(model, angular_model_name, extra_params={}):
     if model is None:
         ret += "window.%s = {};\n" % (angular_model_name)
     else:
-        ret += "window.%s = %s;\n" % (angular_model_name, model.to_json())
+        # cast foreign key and m2m fields to be strings
+        json_ret = model.to_json()
+        model_dict = json.loads(json_ret)
+        fk_fields = model.get_foreign_key_fields()
+        m2m_fields = model.get_many_to_many_fields()
+        for field, val in model_dict["fields"].iteritems():
+            if field in fk_fields:
+               model_dict["fields"][field] = str(val)
+            if field in m2m_fields:
+                model_dict["fields"][field] = map(str, val)
+        ret += "window.%s = %s;\n" % (angular_model_name, json.dumps(model_dict))
+        # adds converter for datetime fields
         for field in model.READABLE_ATTRS(type_filter=models.DateField):
             # DateTimeFields are instances of DateFields
             ret += ("window.%s.fields.%s = new Date(window.%s.fields.%s);\n" %
