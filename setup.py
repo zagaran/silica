@@ -34,7 +34,7 @@ if sys.version < '2.5':
 
 setup(
     name = "silica",
-    version = "0.0.0",
+    version = "0.0.1",
     packages = find_packages(),
     
     zip_safe = False,
