@@ -2,7 +2,7 @@
 
 Silica is a collection of tools to reduce common code used in the frontend-backend interfacing of web sites.
 The initial version is intended primarily for combining Django and Angular, but the project is designed to eventually support other frameworks.
-* This is an early phase project and the interface and behavior of components may change radically before the final release. *
+**This is an early phase project and the interface and behavior of components may change radically before the final release.**
 
 If you are interested in helping, we are seeking collaborators.  Please contact zags [at] zagaran.com if you are interested.
 
