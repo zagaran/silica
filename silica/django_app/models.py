@@ -121,12 +121,22 @@ class BaseModel(models.Model):
             update_fields.add(k)
         self.save(update_fields=update_fields)
     
-    def to_json(self):
+    def to_json(self, include_related=None):
         """ Returns a json representation of the object """
         # Serialize takes a list; we want just a single object
-        return serializers.serialize("json", [self])[1:-1]
+        data = json.loads(serializers.serialize("json", [self]))[0]
+        if include_related:
+            if not isinstance(include_related, (list, tuple)):
+                include_related = [include_related]
+            for related in include_related:
+                if not hasattr(self, related):
+                    raise Exception("Bad related name %s" % related)
+                related_models = getattr(self, related).all()
+                related_data = json.loads(serializers.serialize("json", related_models))
+                data[related] = related_data
+        return json.dumps(data)
     
-    def update_from_json(self, update_json):
+    def update_from_json(self, update_json, include_related=None):
         model = json.loads(update_json)
         params_dict = model["fields"]
         many_to_many_dict = self.prep_many_to_many_save(params_dict)
