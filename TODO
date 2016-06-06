@@ -6,7 +6,6 @@ Angular:
     * Create angular module that holds common functionality in updating models
 Passing models to angular:
     * Use ng-init
-    * prevent dates from showing up one day off in certain timezones
     * prepend namespace strings to window variables
 Angular form generation:
     * Find a better datepicker
@@ -17,6 +16,7 @@ Angular form generation:
     * Add support for linked models
 
 If keeping angular-ui datepicker:
+    * prevent dates from showing up one day off in certain timezones
     * Investigate converting dates in angular controller http://stackoverflow.com/a/15346236/2800876
     * angular side toLocaleDateString() for DateField
     * Figure out what to do about angular's timezone support
