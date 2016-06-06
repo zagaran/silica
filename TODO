@@ -14,9 +14,10 @@ Angular form generation:
     * Add time picker, such as https://angular-ui.github.io/bootstrap
     * Support for ng-options tag from django field options
     * Test extra_params argument to angular_input_field
-    * Investigate converting dates in angular controller http://stackoverflow.com/a/15346236/2800876
+    * Add support for linked models
 
 If keeping angular-ui datepicker:
+    * Investigate converting dates in angular controller http://stackoverflow.com/a/15346236/2800876
     * angular side toLocaleDateString() for DateField
     * Figure out what to do about angular's timezone support
     * don't rely on JS date parsing
