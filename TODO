@@ -10,6 +10,7 @@ Passing models to angular:
 Angular form generation:
     * Find a better datepicker
     * Integrate with angular form validation
+    * Check interaction of attrs in form field rendering with user defined attributes of the widget
     * Add time picker, such as https://angular-ui.github.io/bootstrap
     * Support for ng-options tag from django field options
     * Test extra_params argument to angular_input_field
