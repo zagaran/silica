@@ -1,0 +1,21 @@
+Base model:
+    * Support include_related in update_from_json and create_from_json
+Angular:
+    * Add angular 2 support or switch to angular 2 entirely
+    * Create angular module that holds common functionality in updating models
+Passing models to angular:
+    * Use ng-init
+    * prevent dates from showing up one day off in certain timezones
+    * prepend namespace strings to window variables
+Angular form generation:
+    * Find a better datepicker
+    * Integrate with angular form validation
+    * Add time picker, such as https://angular-ui.github.io/bootstrap
+    * Support for ng-options tag from django field options
+    * Test extra_params argument to angular_input_field
+    * Investigate converting dates in angular controller http://stackoverflow.com/a/15346236/2800876
+
+If keeping angular-ui datepicker:
+    * angular side toLocaleDateString() for DateField
+    * Figure out what to do about angular's timezone support
+    * don't rely on JS date parsing
