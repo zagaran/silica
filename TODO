@@ -1,3 +1,5 @@
+Wholistic:
+    * Add test suite
 Base model:
     * Support include_related in update_from_json and create_from_json
     * Create subclassable django view that implements REST methods for a model
