@@ -6,6 +6,7 @@ Base model:
 Angular:
     * Add angular 2 support or switch to angular 2 entirely
     * Create angular module that holds common functionality in updating models
+    * Add support for Django 1.10's csrf changes
 Passing models to angular:
     * Use ng-init
     * prepend namespace strings to window variables
