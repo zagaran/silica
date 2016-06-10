@@ -1,4 +1,4 @@
-Wholistic:
+Holistic:
     * Add test suite
 Base model:
     * Support include_related in update_from_json and create_from_json
