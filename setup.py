@@ -45,6 +45,8 @@ setup(
     license = "MIT",
     keywords = "django angular interface",
     url = "https://zagaran.com",
+    setup_requires = ['pytest-runner',],
+    tests_require = ['pytest',],
     install_requires = ["django >= 1.9"],
     classifiers = [
                  "Development Status :: 4 - Beta",
