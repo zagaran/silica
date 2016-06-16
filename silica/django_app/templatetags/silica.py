@@ -46,7 +46,7 @@ def angular_model(model, angular_model_name, extra_params={}):
                 model_dict["fields"][field] = str(val)
             if field in m2m_fields:
                 model_dict["fields"][field] = map(str, val)
-        ret += "window.%s = %s;\n" % (angular_model_name, json.dumps(model_dict))
+        ret += "window.%s = %s;\n" % (angular_model_name, json.dumps(model_dict, sort_keys=True))
         # adds converter for datetime fields
         for field in model.READABLE_ATTRS(type_filter=models.DateField):
             # DateTimeFields are instances of DateFields

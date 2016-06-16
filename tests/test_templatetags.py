@@ -106,9 +106,10 @@ class AngularModelTagTests(TagHelper):
         thingy = SilicaModelThingy(name="Carl Perkins")
         template = "{% angular_model model model_name params %}"
         context = {'model_name': 'carl', 'model': thingy}
-        output = (u'<script>\nwindow.carl = {"pk": null, "model": '
-                  u'"tests.silicamodelthingy", "fields": {"created_on": null, '
-                  u'"name": "Carl Perkins"}};\nwindow.carl.fields.created_on '
+        output = (u'<script>\nwindow.carl = {"fields": {"created_on": null, '
+                  u'"name": "Carl Perkins"}, '
+                  u'"model": "tests.silicamodelthingy", '
+                  u'"pk": null};\nwindow.carl.fields.created_on '
                   u'= new Date(window.carl.fields.created_on);\n</script>\n')
         self.tag_test(template, context, output)
 
