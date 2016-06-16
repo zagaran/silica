@@ -132,7 +132,3 @@ class AngularInputFieldTagTests(TagHelper):
         # repeat test, with bound form
         my_form = SampleForm({'name': 'Joe Bloggs'})
         self.tag_test(template, context, output)
-
-
-def test_hello_world():
-    assert "hello_world" == "hello_world"
