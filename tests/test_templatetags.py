@@ -1,5 +1,6 @@
 
 from django import forms
+from django import VERSION
 from django.db import models
 from django.test import TestCase
 from django.template import Context, Template
@@ -125,9 +126,15 @@ class AngularInputFieldTagTests(TagHelper):
         context = {'my_form': my_form,
                    'model_name': 'yourname',
                    'params': {}}
-        output = (u'<input class="form-control" id="id_name" maxlength="100" '
-                  u'name="name" ng-model="yourname.fields.name" '
-                  u'required="true" type="text" />')
+        # Django 1.10 changes the rendering of boolean attributes
+        if VERSION[1] > 9:
+            output = (u'<input class="form-control" id="id_name" '
+                      u'maxlength="100" name="name" ng-model='
+                      u'"yourname.fields.name" type="text" required />')
+        else:
+            output = (u'<input class="form-control" id="id_name" '
+                      u'maxlength="100" name="name" ng-model='
+                      u'"yourname.fields.name" required="true" type="text" />')
         self.tag_test(template, context, output)
         # repeat test, with bound form
         my_form = SampleForm({'name': 'Joe Bloggs'})
