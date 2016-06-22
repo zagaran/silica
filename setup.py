@@ -45,6 +45,7 @@ setup(
     license = "MIT",
     keywords = "django angular interface",
     url = "https://zagaran.com",
+    test_suite="runtests.runtests",
     install_requires = ["django >= 1.9"],
     classifiers = [
                  "Development Status :: 4 - Beta",
