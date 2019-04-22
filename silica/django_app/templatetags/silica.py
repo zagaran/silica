@@ -69,21 +69,21 @@ def angular_input_field(form_field, angular_model_name, extra_params={}):
                  "class": "form-control"}
         if form_field.field.required:
             attrs["required"] = "true"
-        if isinstance(form_field.field, DateTimeField):
-            separator = extra_params.pop("silica_datetime_separator", "")
-            widget1 = _get_datepicker(form_field, attrs, extra_params)
-            attrs["type"] = "time"
-            attrs.update(extra_params)
-            widget2 = form_field.as_widget(attrs=attrs)
-            return format_html(widget1 + separator + widget2)
-        if isinstance(form_field.field, DateField):
-            return format_html(_get_datepicker(form_field, attrs, extra_params))
-        if isinstance(form_field.field, ModelChoiceField):
-            pass
-            #return format_html(_get_datepicker(form_field, attrs, extra_params))
-        if isinstance(form_field.field, ModelMultipleChoiceField):
-            pass
-            #return format_html(_get_datepicker(form_field, attrs, extra_params))
+#         if isinstance(form_field.field, DateTimeField):
+#             separator = extra_params.pop("silica_datetime_separator", "")
+#             widget1 = _get_datepicker(form_field, attrs, extra_params)
+#             attrs["type"] = "time"
+#             attrs.update(extra_params)
+#             widget2 = form_field.as_widget(attrs=attrs)
+#             return format_html(widget1 + separator + widget2)
+#         if isinstance(form_field.field, DateField):
+#             return format_html(_get_datepicker(form_field, attrs, extra_params))
+#         if isinstance(form_field.field, ModelChoiceField):
+#             pass
+#             #return format_html(_get_datepicker(form_field, attrs, extra_params))
+#         if isinstance(form_field.field, ModelMultipleChoiceField):
+#             pass
+#             #return format_html(_get_datepicker(form_field, attrs, extra_params))
         attrs.update(extra_params)
         return format_html(form_field.as_widget(attrs=attrs))
     finally:
