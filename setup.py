@@ -39,7 +39,7 @@ setup(
     zip_safe=False,
     include_package_data=True,
     author="Zagaran, Inc.",
-    author_email="zags at zagaran.com",
+    author_email="zags@zagaran.com",
     description="An automation layer between frontend and backend code.  Currently supports Django and Angular.js",
     license="MIT",
     keywords="django angular interface",
