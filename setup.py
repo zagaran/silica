@@ -29,30 +29,29 @@ import sys
 from setuptools import setup, find_packages
 
 if sys.version < '2.5':
-    print "ERROR: python version 2.5 or higher is required"
+    print("ERROR: python version 2.5 or higher is required")
     sys.exit(1)
 
 setup(
-    name = "silica",
-    version = "0.0.1",
-    packages = find_packages(),
+    name="silica",
+    version="0.0.2",
+    packages=find_packages(),
     
-    zip_safe = False,
-    include_package_data = True,
-    author = "Zagaran, Inc.",
-    author_email = "zags at zagaran.com",
-    description = "An automation layer between frontend and backend code.  Currently supports Django and Angular.",
-    license = "MIT",
-    keywords = "django angular interface",
-    url = "https://zagaran.com",
-    install_requires = ["django >= 1.9"],
-    classifiers = [
-                 "Development Status :: 4 - Beta",
-                 "License :: OSI Approved :: MIT License",
-                 "Operating System :: MacOS :: MacOS X",
-                 "Operating System :: Microsoft :: Windows",
-                 "Operating System :: POSIX",
-                 "Programming Language :: Python",
-                 "Topic :: Database",
-                 ],
+    zip_safe=False,
+    include_package_data=True,
+    author="Zagaran, Inc.",
+    author_email="zags at zagaran.com",
+    description="An automation layer between frontend and backend code.  Currently supports Django and Angular.js",
+    license="MIT",
+    keywords="django angular interface",
+    url="https://zagaran.com",
+    install_requires=["django >= 1.9"],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: POSIX",
+        "Programming Language :: Python",
+    ]
 )
