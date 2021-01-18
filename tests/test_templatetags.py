@@ -19,13 +19,13 @@ class Thingy(object):
 
 class PlainModelThingy(models.Model):
     """ a model for tests """
-    name = models.CharField()
+    name = models.CharField(max_length=128)
     created_on = models.DateTimeField(auto_now_add=True)
 
 
 class SilicaModelThingy(BaseModel):
     """ a silica model for tests """
-    name = models.CharField()
+    name = models.CharField(max_length=128)
     created_on = models.DateTimeField(auto_now_add=True)
 
 
