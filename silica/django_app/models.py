@@ -108,7 +108,7 @@ class BaseModel(models.Model):
         return many_to_many_dict
 
     def do_many_to_many_save(self, many_to_many_dict):
-        for field, objs in many_to_many_dict.iteritems():
+        for field, objs in many_to_many_dict.items():
             getattr(self, field).set(objs)
 
     def update(self, update_dict=None, **kwargs):
@@ -116,7 +116,7 @@ class BaseModel(models.Model):
         if not update_dict:
             update_dict = kwargs
         update_fields = set()
-        for k, v in update_dict.iteritems():
+        for k, v in update_dict.items():
             setattr(self, k, v)
             update_fields.add(k)
         self.save(update_fields=update_fields)
@@ -157,7 +157,7 @@ class TimestampedModel(BaseModel):
         if not update_dict:
             update_dict = kwargs
         update_fields = {"updated_on"}
-        for k, v in update_dict.iteritems():
+        for k, v in update_dict.items():
             setattr(self, k, v)
             update_fields.add(k)
         self.save(update_fields=update_fields)

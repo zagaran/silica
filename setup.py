@@ -34,7 +34,7 @@ if sys.version < '2.5':
 
 setup(
     name="silica",
-    version="0.0.2",
+    version="0.0.3",
     packages=find_packages(),
     
     zip_safe=False,
@@ -45,7 +45,7 @@ setup(
     license="MIT",
     keywords="django angular interface",
     url="https://zagaran.com",
-    install_requires=["django >= 1.9"],
+    install_requires=["django >= 2.0"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",

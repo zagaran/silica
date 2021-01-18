@@ -41,7 +41,7 @@ def angular_model(model, angular_model_name, extra_params={}):
         model_dict = json.loads(json_ret)
         fk_fields = model.get_foreign_key_fields()
         m2m_fields = model.get_many_to_many_fields()
-        for field, val in model_dict["fields"].iteritems():
+        for field, val in model_dict["fields"].items():
             if field in fk_fields:
                 model_dict["fields"][field] = str(val)
             if field in m2m_fields:
